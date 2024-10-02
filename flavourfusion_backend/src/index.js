@@ -3,11 +3,15 @@ import dotenv from "dotenv";
 // import route from "./routes/route.js";
 // import cros from "cors";
 
+const connectdb = require("../config/db");
+const app = express();
+
+app.use(express.json());
+// Connect to MongoDB
+connectdb();
 // Configuration of dotenv
 dotenv.config();
 
-const app = express();
-app.use(express.json());
 
 // Enable CORS for all domains (allow requests from any origin)
 // app.use(cors({ origin: "*" }));
