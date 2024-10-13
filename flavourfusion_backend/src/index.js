@@ -1,30 +1,22 @@
 import express from "express";
 import dotenv from "dotenv";
-// import route from "./routes/route.js";
-// import cros from "cors";
-
-const connectdb = require("../config/db");
-const app = express();
-
-app.use(express.json());
-// Connect to MongoDB
-connectdb();
-// Configuration of dotenv
+import route from "../src/routes/route.js"
+// Initialize dotenv for environment variables
 dotenv.config();
 
+// Initialize express app
+const app = express();
 
-// Enable CORS for all domains (allow requests from any origin)
-// app.use(cors({ origin: "*" }));
+// Enable JSON parsing
+app.use(express.json());
 
 const port = process.env.PORT || 3000;
 
-// Routes
-// app.use("/", route);
-app.use("/",(req,res)=>{
-    res.send("Heloo");
-});
+// Root route
+app.use("/", route);
 
-// Create a server
+
+// Start server
 app.listen(port, () => {
-  console.log("listening on port " + port);
+  console.log("Server is running on port " + port);
 });
