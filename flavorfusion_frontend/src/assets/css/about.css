@@ -1,0 +1,54 @@
+/* Banner Section with Background Image */
+.about-banner {
+  position: relative;
+  height: 400px;
+  background-image: url("../../assets/images/about-us.jpg");  /* Replace with your image path */
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Overlay to make text readable */
+.about-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 2rem;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.about-overlay h1 {
+  font-size: 3.2rem;
+  font-family: "Lobster", cursive;
+  margin-bottom: 1rem;
+}
+
+.about-overlay p {
+  font-size: 1.8rem;
+  font-family: 'Work Sans', sans-serif;
+}
+
+/* About Us content section */
+.about-content-section {
+  padding: 3rem 1.5rem;
+  background-color: #f8f8f8;
+}
+
+.about-content h2 {
+  font-size: 2.6rem;
+  color: #e76f51;
+  margin-bottom: 1rem;
+}
+
+.about-content p {
+  font-size: 1.6rem;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.about-content p:last-child {
+  margin-bottom: 0;  /* Remove bottom margin from last paragraph */
+}

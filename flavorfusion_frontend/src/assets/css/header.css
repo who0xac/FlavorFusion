@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Work+Sans:wght@400;600&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');  
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2.5rem;
+  background-color: #000;  
+  color: white;
+  height: 80px;  
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem; 
+}
+
+.logo {
+  height: 70px;  
+  width: auto;
+}
+
+.brand-name {
+ 
+  background-clip: text;
+  -webkit-background-clip: text;  
+}
+
+.nav {
+  display: flex;
+  justify-content: flex-end;
+  flex-grow: 1;  
+}
+
+.nav ul {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+}
+
+.nav ul li a {
+  color: white;
+  font-size: 1.6rem;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  transition: color 0.3s ease, text-decoration 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+
+.nav ul li a:hover {
+  color: #e76f51;  
+  border-bottom: 2px solid #e76f51;  
+}
+
+.nav ul li a.active {
+  color: #e76f51;  
+  border-bottom: 2px solid #e76f51;
+  pointer-events: none;
+}

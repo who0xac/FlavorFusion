@@ -1,0 +1,34 @@
+/* Initially hide the footer */
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  transform: translateY(100%);  /* Move footer off-screen */
+  transition: transform 0.3s ease-in-out;
+  z-index: 100;
+}
+
+/* When the footer is visible */
+.footer.visible {
+  transform: translateY(0);  /* Slide footer into view */
+}
+
+/* Styling the footer content */
+.footer p {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.footer span {
+  color: red;
+}
+/* Add padding to the bottom of the content area to prevent overlap with the footer */
+.main-content, 
+.about-main, 
+.other-page-content {  /* Apply to all content sections if needed */
+  padding-bottom: 6rem;  /* Adjust the padding to create enough space before the footer */
+}
