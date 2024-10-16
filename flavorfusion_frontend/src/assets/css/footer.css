@@ -26,9 +26,19 @@
 .footer span {
   color: red;
 }
+
 /* Add padding to the bottom of the content area to prevent overlap with the footer */
 .main-content, 
 .about-main, 
 .other-page-content {  /* Apply to all content sections if needed */
-  padding-bottom: 6rem;  /* Adjust the padding to create enough space before the footer */
+  padding-bottom: 10rem;  /* Increased padding to create more space before the footer */
+}
+
+/* Responsive adjustment: for smaller screens, you might want to reduce the padding */
+@media (max-width: 768px) {
+  .main-content, 
+  .about-main, 
+  .other-page-content {
+    padding-bottom: 7rem;  /* Adjust padding on smaller screens */
+  }
 }

@@ -7,31 +7,45 @@ dotenv.config();
 const prisma = new PrismaClient();
 
 async function main() {
-  const adminExists = await prisma.admin.findUnique({
-    where: { email: process.env.ADMIN_EMAIL },
-  });
+  // Ensure environment variables are available
+  const adminEmail = process.env.ADMIN_EMAIL;
+  const adminPassword = process.env.ADMIN_PASSWORD;
 
-  if (!adminExists) {
-    const hashedPassword = bcrypt.hashSync(process.env.ADMIN_PASSWORD, 10);
+  if (!adminEmail || !adminPassword) {
+    console.error("ADMIN_EMAIL or ADMIN_PASSWORD is missing in the .env file");
+    process.exit(1); // Exit with error
+  }
 
-    await prisma.admin.create({
-      data: {
-        email: process.env.ADMIN_EMAIL,
-        password: hashedPassword,
-      },
+  try {
+    // Check if the admin already exists
+    const adminExists = await prisma.admin.findUnique({
+      where: { email: adminEmail },
     });
 
-    console.log("Admin user created");
-  } else {
-    console.log("Admin user already exists");
+    // If the admin doesn't exist, create one
+    if (!adminExists) {
+      // Use asynchronous password hashing
+      const hashedPassword = await bcrypt.hash(adminPassword, 10);
+
+      await prisma.admin.create({
+        data: {
+          email: adminEmail,
+          password: hashedPassword,
+        },
+      });
+
+      console.log("Admin user created successfully");
+    } else {
+      console.log("Admin user already exists");
+    }
+  } catch (error) {
+    console.error("Error during admin seeding:", error);
+  } finally {
+    await prisma.$disconnect();
   }
 }
 
-main()
-  .catch((e) => {
-    console.error(e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

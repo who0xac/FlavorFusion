@@ -4,7 +4,7 @@ import recipeRoute from "../routes/Recipe/recipeRoutes.js";
 
 const route = express();
 
-route.use("/adminlogin", adminLoginRoute);
+route.use("/login", adminLoginRoute);
 
 route.use("/recipes", recipeRoute);
 

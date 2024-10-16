@@ -1,35 +1,28 @@
-import RecipeModel from "../../models/Recipe/recipeModel.js";
+import RecipeModel from "../../models/Recipe/recipeModel.js"; // Assuming this exists
 
 const recipeModel = new RecipeModel(); // Create an instance of RecipeModel
 
+// Controller function to search for recipes
 export async function searchRecipes(req, res) {
   const { category, cuisine } = req.query;
 
-  // Input validation
-  if (category && typeof category !== "string") {
-    return res
-      .status(400)
-      .json({ message: "Invalid category. It must be a string." });
-  }
-
-  if (cuisine && typeof cuisine !== "string") {
-    return res
-      .status(400)
-      .json({ message: "Invalid cuisine. It must be a string." });
-  }
+  // Log incoming filter values for debugging
+  console.log("Backend Filter - Category:", category);
+  console.log("Backend Filter - Cuisine:", cuisine);
 
   try {
-    // Build filter object based on the provided query parameters
+    // Build filter object
     const filter = {
       ...(category && { category }),
       ...(cuisine && { cuisine }),
     };
 
-    console.log("Filter object: ", filter); // Debugging log for filter object
+    console.log("Filter object:", filter); // Log filter object
 
-    // Call the searchRecipes method on the instance
+    // Query the database for matching recipes
     const recipes = await recipeModel.searchRecipes(filter);
 
+    // Handle no matching recipes
     if (!recipes || recipes.length === 0) {
       return res.status(404).json({
         message: "No recipes found matching the given criteria.",
@@ -37,7 +30,7 @@ export async function searchRecipes(req, res) {
       });
     }
 
-    // Respond with the recipes found
+    // Return the found recipes
     res.status(200).json({
       message: "Recipes retrieved successfully.",
       data: recipes,

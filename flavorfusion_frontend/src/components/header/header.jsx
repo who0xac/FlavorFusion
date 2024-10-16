@@ -18,18 +18,19 @@ const Header = () => {
             </NavLink>
           </li>
           <li>
+            <NavLink to="/about-us" activeClassName="active">
+              <i className="fas fa-info-circle"></i> About Us
+            </NavLink>
+          </li>
+          <li>
             <NavLink to="/recipes" activeClassName="active">
               <i className="fas fa-utensils"></i> Recipes
             </NavLink>
           </li>
+
           <li>
             <NavLink to="/contact-us" activeClassName="active">
               <i className="fas fa-envelope"></i> Contact Us
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/about-us" activeClassName="active">
-              <i className="fas fa-info-circle"></i> About Us
             </NavLink>
           </li>
         </ul>

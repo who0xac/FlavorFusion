@@ -1,0 +1,49 @@
+.admin-dashboard-container {
+  display: flex;
+  padding: 20px;
+}
+
+.admin-sidebar {
+  width: 200px; /* Width of the sidebar */
+  background-color: #f8f9fa; /* Light background color */
+  padding: 20px; /* Padding around the sidebar */
+  border-right: 2px solid #dee2e6; /* Right border for separation */
+}
+
+.admin-sidebar button {
+  width: 100%; /* Full width buttons */
+  padding: 10px; /* Padding for buttons */
+  margin-bottom: 10px; /* Spacing between buttons */
+  background-color: #007bff; /* Button color */
+  color: white; /* Button text color */
+  border: none; /* Remove border */
+  border-radius: 4px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s; /* Transition effect */
+}
+
+.admin-sidebar button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+.admin-recipes-container {
+  flex-grow: 1; /* Take up remaining space */
+  display: flex;
+  flex-wrap: wrap; /* Wrap cards */
+  gap: 20px; /* Space between cards */
+  padding: 20px; /* Padding around the card area */
+}
+
+.admin-recipes-container p {
+  width: 100%; /* Full width message */
+  text-align: center; /* Centered text */
+  color: #6c757d; /* Light gray for no recipes available */
+}
+
+/* Footer styling, ensure it's consistent with your existing styles */
+footer {
+  background-color: #343a40; /* Dark background for footer */
+  color: white; /* White text */
+  text-align: center; /* Centered text */
+  padding: 10px 0; /* Padding around footer */
+}

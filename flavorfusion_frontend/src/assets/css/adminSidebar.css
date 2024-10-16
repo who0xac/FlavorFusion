@@ -1,0 +1,22 @@
+.admin-sidebar {
+  background-color: #f8f9fa; /* Light background color */
+  border-right: 1px solid #dee2e6; /* Right border for separation */
+  padding: 20px; /* Padding around the sidebar */
+}
+
+.admin-sidebar button {
+  display: block; /* Block display for buttons */
+  width: 100%; /* Full width buttons */
+  padding: 10px; /* Padding for buttons */
+  margin: 10px 0; /* Margin between buttons */
+  background-color: #007bff; /* Button color */
+  color: white; /* Button text color */
+  border: none; /* Remove border */
+  border-radius: 4px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s; /* Transition effect */
+}
+
+.admin-sidebar button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}

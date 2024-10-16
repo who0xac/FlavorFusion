@@ -1,0 +1,51 @@
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.modal h2 {
+  margin-bottom: 1rem;
+}
+
+.recipe-form {
+  background-color: #fff; /* White background */
+  padding: 20px; /* Padding for the form */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+  margin: 20px; /* Margin around the form */
+}
+
+.recipe-form input,
+.recipe-form select,
+.recipe-form textarea {
+  width: 100%; /* Full width inputs */
+  padding: 10px; /* Padding for inputs */
+  margin: 10px 0; /* Margin between inputs */
+  border: 1px solid #ced4da; /* Light border */
+  border-radius: 4px; /* Rounded corners */
+}
+
+.recipe-form button {
+  background-color: #28a745; /* Green button color */
+  color: white; /* White text */
+  border: none; /* Remove border */
+  padding: 10px; /* Padding for button */
+  border-radius: 4px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s; /* Transition effect */
+}
+
+.recipe-form button:hover {
+  background-color: #218838; /* Darker green on hover */
+}
+
+.error {
+  color: red; /* Red color for error messages */
+}

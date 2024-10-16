@@ -92,8 +92,12 @@ class RecipeModel {
       return await this.prisma.recipe.findMany({
         where: {
           AND: [
-            filter.cuisine ? { cuisine: filter.cuisine } : {},
-            filter.category ? { category: filter.category } : {},
+            filter.cuisine
+              ? { cuisine: { equals: filter.cuisine, mode: "insensitive" } }
+              : {},
+            filter.category
+              ? { category: { equals: filter.category, mode: "insensitive" } }
+              : {},
           ],
         },
         orderBy: { createdAt: "desc" }, // Optionally, order by creation date
