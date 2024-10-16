@@ -21,6 +21,7 @@ const AdminDashboard = () => {
     setLoading(true);
     try {
       const response = await axios.get("http://localhost:3000/recipes");
+      console.log("Response data from API:", response.data); // Log the response data
       if (response.data && response.data.data) {
         setRecipes(response.data.data);
       } else {
@@ -28,17 +29,16 @@ const AdminDashboard = () => {
       }
     } catch (err) {
       setError("Failed to fetch recipes.");
+      console.error("Error fetching recipes:", err);
     } finally {
       setLoading(false);
     }
   };
 
-  // Fetch recipes on load
   useEffect(() => {
-    fetchRecipes(); // Call the fetch function
+    fetchRecipes(); // Fetch recipes on component load
   }, []);
 
-  // Handle recipe deletion
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:3000/recipes/${id}`);
@@ -50,12 +50,10 @@ const AdminDashboard = () => {
     }
   };
 
-  // Function to open Create Recipe modal
   const handleCreate = () => {
     setShowCreate(true);
   };
 
-  // Function to open Edit Recipe modal
   const handleEdit = (id) => {
     setEditRecipeId(id);
     setShowEdit(true);

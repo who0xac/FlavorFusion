@@ -1,5 +1,4 @@
 import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -24,13 +23,10 @@ async function main() {
 
     // If the admin doesn't exist, create one
     if (!adminExists) {
-      // Use asynchronous password hashing
-      const hashedPassword = await bcrypt.hash(adminPassword, 10);
-
       await prisma.admin.create({
         data: {
           email: adminEmail,
-          password: hashedPassword,
+          password: adminPassword, // Store password in plain text
         },
       });
 

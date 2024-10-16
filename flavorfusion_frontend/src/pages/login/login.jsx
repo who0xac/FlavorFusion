@@ -15,23 +15,30 @@ const Login = () => {
     setLoading(true); // Start loading
     setError(""); // Clear previous errors
     try {
-      const response = await axios.post("/adminlogin", {
+      console.log("Attempting to login with:", { email, password }); // Debugging log
+      const response = await axios.post("http://localhost:3000/login", {
         email,
         password,
       });
+      console.log("Login response:", response.data); // Log the response
       localStorage.setItem("token", response.data.token); // Save JWT
       setLoading(false); // Stop loading after success
       navigate("/admin"); // Redirect to admin dashboard
     } catch (err) {
       setLoading(false); // Stop loading
+      console.error("Login error:", err); // Log the error for debugging
       setError("Invalid email or password"); // Set error message
-      console.error(err);
     }
   };
 
   return (
     <div className="login-container">
       <div className="login-box">
+        <img
+          src={require("../../assets/icons/fflogo.jpg")} // Your actual logo path
+          alt="FlavorFusion Logo"
+          className="logo"
+        />
         <h1 className="brand-name">FlavorFusion</h1>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
