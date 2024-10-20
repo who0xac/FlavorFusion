@@ -1,51 +1,85 @@
+/* File: src/assets/css/form.css */
 .modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: white;
-  padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin: 40px auto;
+  text-align: center;
 }
 
 .modal h2 {
-  margin-bottom: 1rem;
+  margin-bottom: 20px;
+  font-size: 24px;
 }
 
-.recipe-form {
-  background-color: #fff; /* White background */
-  padding: 20px; /* Padding for the form */
-  border-radius: 8px; /* Rounded corners */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for depth */
-  margin: 20px; /* Margin around the form */
+.modal .error {
+  color: #e74c3c;
+  margin-bottom: 15px;
 }
 
-.recipe-form input,
-.recipe-form select,
-.recipe-form textarea {
-  width: 100%; /* Full width inputs */
-  padding: 10px; /* Padding for inputs */
-  margin: 10px 0; /* Margin between inputs */
-  border: 1px solid #ced4da; /* Light border */
-  border-radius: 4px; /* Rounded corners */
+.modal .success {
+  color: #28a745;
+  margin-bottom: 15px;
 }
 
-.recipe-form button {
-  background-color: #28a745; /* Green button color */
-  color: white; /* White text */
-  border: none; /* Remove border */
-  padding: 10px; /* Padding for button */
-  border-radius: 4px; /* Rounded corners */
-  cursor: pointer; /* Pointer cursor on hover */
-  transition: background-color 0.3s; /* Transition effect */
+.modal form {
+  display: flex;
+  flex-direction: column;
 }
 
-.recipe-form button:hover {
-  background-color: #218838; /* Darker green on hover */
+.modal input,
+.modal textarea,
+.modal select {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
 }
 
-.error {
-  color: red; /* Red color for error messages */
+.modal input[type="number"] {
+  -moz-appearance: textfield; /* Prevent number input spinner in Firefox */
+}
+
+.modal input:focus,
+.modal textarea:focus,
+.modal select:focus {
+  border-color: #80bdff;
+  outline: none;
+}
+
+.modal button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.modal button:hover {
+  background-color: #218838;
+}
+
+.modal .dropdown-container {
+  margin: 10px 0;
+}
+
+.modal .dropdown {
+  padding: 12px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+}
+
+.modal button:last-of-type {
+  background-color: #dc3545;
+  margin-top: 15px;
+}
+
+.modal button:last-of-type:hover {
+  background-color: #c82333;
 }

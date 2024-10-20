@@ -1,107 +1,67 @@
+// File: src/pages/dashboard/RecipePage.jsx
 import React, { useState, useEffect } from "react";
-import AdminSidebar from "../../components/adminSidebar/adminSidebar";
-import AdminHeader from "../../components/adminheader/adminheader";
-import AdminCard from "../../components/adminCard/adminCard";
+import Header from "../../components/adminheader/adminheader";
 import Footer from "../../components/footer/footer";
+import Sidebar from "../../components/adminSidebar/adminSidebar";
+import RecipeList from "../../components/adminList/adminList";
 import CreateRecipe from "../../components/CreateRecipe/CreateRecipe";
-import EditRecipe from "../../components/EditRecipe/EditRecipe";
+import EditRecipe from "../../components/EditRecipe/EditRecipe"; // Import CreateRecipe component
 import axios from "axios";
-import "../../assets/css/adminDashboard.css";
+import "../../assets/css/recipe.css"; // Assuming CSS is in place
 
-const AdminDashboard = () => {
-  const [recipes, setRecipes] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [showCreate, setShowCreate] = useState(false);
-  const [editRecipeId, setEditRecipeId] = useState(null);
-  const [showEdit, setShowEdit] = useState(false);
+const RecipePage = () => {
+  const [recipes, setRecipes] = useState([]); // State to store recipes
+  const [showCreate, setShowCreate] = useState(false); // State to show or hide the CreateRecipe modal
+  const [filter, setFilter] = useState(""); // Empty string by default to show all recipes
 
-  // Function to fetch recipes
+  // Function to fetch recipes from the API
   const fetchRecipes = async () => {
-    setLoading(true);
     try {
       const response = await axios.get("http://localhost:3000/recipes");
-      console.log("Response data from API:", response.data); // Log the response data
       if (response.data && response.data.data) {
         setRecipes(response.data.data);
       } else {
         setRecipes([]);
       }
-    } catch (err) {
-      setError("Failed to fetch recipes.");
-      console.error("Error fetching recipes:", err);
-    } finally {
-      setLoading(false);
+    } catch (error) {
+      console.error("Failed to fetch recipes:", error);
     }
   };
 
+  // Fetch recipes when the component mounts
   useEffect(() => {
-    fetchRecipes(); // Fetch recipes on component load
+    fetchRecipes();
   }, []);
 
-  const handleDelete = async (id) => {
-    try {
-      await axios.delete(`http://localhost:3000/recipes/${id}`);
-      setRecipes((prevRecipes) =>
-        prevRecipes.filter((recipe) => recipe.id !== id)
-      );
-    } catch (err) {
-      console.error("Error deleting recipe:", err);
-    }
-  };
-
+  // Function to handle showing the Create Recipe modal
   const handleCreate = () => {
     setShowCreate(true);
   };
 
-  const handleEdit = (id) => {
-    setEditRecipeId(id);
-    setShowEdit(true);
+  // Function to close the Create Recipe modal
+  const handleCloseCreate = () => {
+    setShowCreate(false);
+    fetchRecipes(); // Refresh the list of recipes after creating a new one
   };
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
 
   return (
     <>
-      <AdminHeader />
-      <div className="admin-dashboard-container">
-        <AdminSidebar
-          onCreate={handleCreate}
-          onEditDelete={() => console.log("Manage Recipes")}
-        />
-        <div className="admin-recipes-container">
-          {recipes.length > 0 ? (
-            recipes.map((recipe) => (
-              <AdminCard
-                key={recipe.id}
-                recipe={recipe}
-                onDelete={handleDelete}
-                onEdit={() => handleEdit(recipe.id)}
-              />
-            ))
-          ) : (
-            <p>No recipes available.</p>
-          )}
-        </div>
+      <Header /> {/* Header component */}
+      <div className="recipe-page-container">
+        <Sidebar onCreate={handleCreate} /> {/* Pass handleCreate to Sidebar */}
+        <main className="recipe-main-content">
+          {/* <RecipeList recipes={recipes} filter={filter} onEdit={EditRecipe}/>{" "} */}
+          {/* Display recipes */}
+        </main>
       </div>
-      <Footer />
-
+      <Footer /> {/* Footer component */}
       {showCreate && (
         <CreateRecipe
-          onClose={() => setShowCreate(false)}
-          refreshRecipes={fetchRecipes}
-        />
-      )}
-      {showEdit && (
-        <EditRecipe
-          recipeId={editRecipeId}
-          onClose={() => setShowEdit(false)}
-          refreshRecipes={fetchRecipes}
+          onClose={handleCloseCreate} // Close the modal after creating a recipe
         />
       )}
     </>
   );
 };
 
-export default AdminDashboard;
+export default RecipePage;

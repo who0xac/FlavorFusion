@@ -1,6 +1,7 @@
+// File: src/components/EditRecipe/EditRecipe.jsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "../../assets/css/form.css"; // Import the CSS
+import "../../assets/css/form.css";
 
 const categories = ["Main Course", "Appetizer", "Dessert", "Salad", "Snack"];
 const cuisines = ["Italian", "Mexican", "Indian", "Greek", "Chinese"];
@@ -9,16 +10,16 @@ const EditRecipe = ({ recipeId, onClose, refreshRecipes }) => {
   const [recipe, setRecipe] = useState(null);
   const [error, setError] = useState("");
 
-  // Fetch the recipe data for editing
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
         const response = await axios.get(
           `http://localhost:3000/recipes/${recipeId}`
         );
-        setRecipe(response.data.data); // Assuming the data structure
+        setRecipe(response.data.data);
       } catch (err) {
         setError("Failed to fetch recipe.");
+        console.error(err);
       }
     };
     fetchRecipe();
@@ -34,16 +35,17 @@ const EditRecipe = ({ recipeId, onClose, refreshRecipes }) => {
         cuisine: recipe.cuisine,
         prepTime: recipe.prepTime,
         instructions: recipe.instructions,
+        discription: recipe.discription,
       });
-      refreshRecipes(); // Refresh the recipes after editing
-      onClose(); // Close the modal after editing
+      refreshRecipes();
+      onClose();
     } catch (err) {
       setError("Failed to update recipe.");
       console.error(err);
     }
   };
 
-  if (!recipe) return <p>Loading recipe...</p>; // Show loading state
+  if (!recipe) return <p>Loading recipe...</p>;
 
   return (
     <div className="modal">
@@ -69,8 +71,8 @@ const EditRecipe = ({ recipeId, onClose, refreshRecipes }) => {
           value={recipe.category}
           onChange={(e) => setRecipe({ ...recipe, category: e.target.value })}
         >
-          {categories.map((cat, index) => (
-            <option key={index} value={cat}>
+          {categories.map((cat) => (
+            <option key={cat} value={cat}>
               {cat}
             </option>
           ))}
@@ -79,8 +81,8 @@ const EditRecipe = ({ recipeId, onClose, refreshRecipes }) => {
           value={recipe.cuisine}
           onChange={(e) => setRecipe({ ...recipe, cuisine: e.target.value })}
         >
-          {cuisines.map((cuis, index) => (
-            <option key={index} value={cuis}>
+          {cuisines.map((cuis) => (
+            <option key={cuis} value={cuis}>
               {cuis}
             </option>
           ))}
@@ -101,8 +103,10 @@ const EditRecipe = ({ recipeId, onClose, refreshRecipes }) => {
           required
         />
         <button type="submit">Update Recipe</button>
+        <button type="button" onClick={onClose}>
+          Cancel
+        </button>
       </form>
-      <button onClick={onClose}>Close</button>
     </div>
   );
 };

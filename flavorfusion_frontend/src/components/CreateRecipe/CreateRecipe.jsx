@@ -1,49 +1,39 @@
+// File: src/components/CreateRecipe/CreateRecipe.jsx
 import React, { useState } from "react";
 import axios from "axios";
-import "../../assets/css/form.css"; // Import the CSS
+import "../../assets/css/form.css"; // Assuming you have form-specific styles
 
 const categories = ["Main Course", "Appetizer", "Dessert", "Salad", "Snack"];
 const cuisines = ["Italian", "Mexican", "Indian", "Greek", "Chinese"];
 
-const CreateRecipe = ({ onClose, refreshRecipes }) => {
+const CreateRecipe = ({ onClose }) => {
   const [name, setName] = useState("");
   const [ingredients, setIngredients] = useState("");
-  const [category, setCategory] = useState(categories[0]); // Default category
-  const [cuisine, setCuisine] = useState(cuisines[0]); // Default cuisine
+  const [imageUrl, setImageUrl] = useState("");
+  const [category, setCategory] = useState(categories[0]);
+  const [cuisine, setCuisine] = useState(cuisines[0]);
   const [prepTime, setPrepTime] = useState("");
   const [instructions, setInstructions] = useState("");
-  const [imageUrl, setImageUrl] = useState(""); // State for image URL
-  const [description, setDescription] = useState(""); // New state for description
+  const [description, setDescription] = useState("");
   const [error, setError] = useState("");
-  const [successMessage, setSuccessMessage] = useState(""); // State for success message
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Validate prepTime
-    if (!prepTime || isNaN(prepTime) || prepTime <= 0) {
-      setError("Please enter a valid preparation time.");
-      return;
-    }
-
     try {
-      const response = await axios.post("http://localhost:3000/recipes", {
+      await axios.post("http://localhost:3000/recipes", {
         name,
-        ingredients: ingredients.split(",").map((item) => item.trim()), // Trim spaces
+        ingredients: ingredients.split(",").map((item) => item.trim()),
+        imageUrl,
         category,
         cuisine,
-        prepTime: parseInt(prepTime),
-        instructions: instructions.split(",").map((item) => item.trim()), // Trim spaces
-        imageUrl, // Include the image URL
-        description, // Include the description
+        prepTime: parseInt(prepTime, 10),
+        instructions: instructions.split(",").map((item) => item.trim()),
+        description,
       });
-      console.log("Response from server:", response.data); // Log the response
-      setSuccessMessage("Recipe created successfully!"); // Set success message
-      refreshRecipes(); // Refresh the recipes after adding
-      onClose(); // Close the modal after adding
+      onClose(); // Close the modal after successful creation
     } catch (err) {
-      console.error("Error creating recipe:", err);
-      setError(err.response?.data?.message || "Failed to create recipe.");
+      setError("Failed to create recipe.");
+      console.error(err);
     }
   };
 
@@ -51,8 +41,6 @@ const CreateRecipe = ({ onClose, refreshRecipes }) => {
     <div className="modal">
       <h2>Create Recipe</h2>
       {error && <p className="error">{error}</p>}
-      {successMessage && <p className="success">{successMessage}</p>}{" "}
-      {/* Display success message */}
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -71,19 +59,18 @@ const CreateRecipe = ({ onClose, refreshRecipes }) => {
           type="text"
           placeholder="Image URL"
           value={imageUrl}
-          onChange={(e) => setImageUrl(e.target.value)} // Add input for image URL
-          required
+          onChange={(e) => setImageUrl(e.target.value)}
         />
         <select value={category} onChange={(e) => setCategory(e.target.value)}>
-          {categories.map((cat, index) => (
-            <option key={index} value={cat}>
+          {categories.map((cat) => (
+            <option key={cat} value={cat}>
               {cat}
             </option>
           ))}
         </select>
         <select value={cuisine} onChange={(e) => setCuisine(e.target.value)}>
-          {cuisines.map((cuis, index) => (
-            <option key={index} value={cuis}>
+          {cuisines.map((cuis) => (
+            <option key={cuis} value={cuis}>
               {cuis}
             </option>
           ))}
@@ -104,12 +91,14 @@ const CreateRecipe = ({ onClose, refreshRecipes }) => {
         <textarea
           placeholder="Description"
           value={description}
-          onChange={(e) => setDescription(e.target.value)} // Add this field
+          onChange={(e) => setDescription(e.target.value)}
           required
         />
         <button type="submit">Create Recipe</button>
+        <button type="button" onClick={onClose}>
+          Cancel
+        </button>
       </form>
-      <button onClick={onClose}>Close</button>
     </div>
   );
 };
