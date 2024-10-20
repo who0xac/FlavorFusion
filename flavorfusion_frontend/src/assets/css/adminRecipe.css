@@ -1,0 +1,133 @@
+/* Recipe Page Container */
+.recipe-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Recipe Page Content */
+.recipe-page-content {
+  display: flex;
+  flex: 1;
+}
+
+/* Main Content Area */
+.recipe-main-content {
+  flex: 1;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+/* Loading and Error Messages */
+.recipe-main-content p {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 20px;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+}
+
+/* Edit Recipe Container */
+.edit-recipe-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 600px;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+/* Title */
+.edit-recipe-title {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Form Styling */
+.edit-recipe-form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Input Fields */
+.edit-recipe-form input,
+.edit-recipe-form textarea,
+.edit-recipe-form select {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+/* Input Focus State */
+.edit-recipe-form input:focus,
+.edit-recipe-form textarea:focus,
+.edit-recipe-form select:focus {
+  border-color: #ff6f3c;
+  outline: none;
+}
+
+/* Submit Button */
+.edit-recipe-form button {
+  background-color: #ff6f3c;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
+}
+
+/* Button Hover State */
+.edit-recipe-form button:hover {
+  background-color: #ff8f5c;
+}
+
+/* Create Recipe Modal */
+.create-recipe-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.create-recipe-content {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 600px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .recipe-page-content {
+    flex-direction: column;
+  }
+
+  .edit-recipe-container,
+  .create-recipe-content {
+    width: 95%;
+  }
+}
