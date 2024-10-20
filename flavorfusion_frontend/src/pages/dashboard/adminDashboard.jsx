@@ -1,66 +1,101 @@
-// File: src/pages/dashboard/RecipePage.jsx
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Header from "../../components/adminheader/adminheader";
 import Footer from "../../components/footer/footer";
 import Sidebar from "../../components/adminSidebar/adminSidebar";
-import RecipeList from "../../components/adminList/adminList";
+import AdminRecipeList from "../../components/adminList/adminList";
 import CreateRecipe from "../../components/CreateRecipe/CreateRecipe";
-import EditRecipe from "../../components/EditRecipe/EditRecipe"; // Import CreateRecipe component
-import axios from "axios";
-import "../../assets/css/recipe.css"; // Assuming CSS is in place
+import EditRecipe from "../../components/EditRecipe/EditRecipe";
+import "../../assets/css/recipe.css";
 
 const RecipePage = () => {
-  const [recipes, setRecipes] = useState([]); // State to store recipes
-  const [showCreate, setShowCreate] = useState(false); // State to show or hide the CreateRecipe modal
-  const [filter, setFilter] = useState(""); // Empty string by default to show all recipes
+  const [recipes, setRecipes] = useState([]);
+  const [showCreate, setShowCreate] = useState(false);
+  const [editingRecipe, setEditingRecipe] = useState(null);
+  const [filter, setFilter] = useState("all");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Function to fetch recipes from the API
   const fetchRecipes = async () => {
+    setLoading(true);
     try {
       const response = await axios.get("http://localhost:3000/recipes");
-      if (response.data && response.data.data) {
-        setRecipes(response.data.data);
-      } else {
-        setRecipes([]);
-      }
-    } catch (error) {
-      console.error("Failed to fetch recipes:", error);
+      setRecipes(response.data);
+      setError(null);
+    } catch (err) {
+      console.error("Failed to fetch recipes:", err);
+      setError("Failed to load recipes. Please try again later.");
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Fetch recipes when the component mounts
   useEffect(() => {
     fetchRecipes();
   }, []);
 
-  // Function to handle showing the Create Recipe modal
-  const handleCreate = () => {
-    setShowCreate(true);
-  };
-
-  // Function to close the Create Recipe modal
+  const handleCreate = () => setShowCreate(true);
   const handleCloseCreate = () => {
     setShowCreate(false);
-    fetchRecipes(); // Refresh the list of recipes after creating a new one
+    fetchRecipes();
   };
 
+  const handleEdit = (recipe) => setEditingRecipe(recipe);
+  const handleCloseEdit = () => {
+    setEditingRecipe(null);
+    fetchRecipes();
+  };
+
+  const handleFilterChange = (newFilter) => setFilter(newFilter);
+
+  const filteredRecipes =
+    filter === "all"
+      ? recipes
+      : recipes.filter(
+          (recipe) => recipe.category === filter || recipe.cuisine === filter
+        );
+
   return (
-    <>
-      <Header /> {/* Header component */}
-      <div className="recipe-page-container">
-        <Sidebar onCreate={handleCreate} /> {/* Pass handleCreate to Sidebar */}
+    <div className="recipe-page">
+      <Header />
+      <div className="recipe-page-content">
+        <Sidebar
+          onCreate={handleCreate}
+          onFilterChange={handleFilterChange}
+          categories={[...new Set(recipes.map((r) => r.category))]}
+          cuisines={[...new Set(recipes.map((r) => r.cuisine))]}
+        />
         <main className="recipe-main-content">
-          {/* <RecipeList recipes={recipes} filter={filter} onEdit={EditRecipe}/>{" "} */}
-          {/* Display recipes */}
+          {loading ? (
+            <p>Loading recipes...</p>
+          ) : error ? (
+            <p className="error">{error}</p>
+          ) : (
+            <AdminRecipeList
+              recipes={filteredRecipes}
+              onEdit={handleEdit}
+              refreshRecipes={fetchRecipes}
+            />
+          )}
         </main>
       </div>
-      <Footer /> {/* Footer component */}
+      <Footer />
+
       {showCreate && (
         <CreateRecipe
-          onClose={handleCloseCreate} // Close the modal after creating a recipe
+          onClose={handleCloseCreate}
+          refreshRecipes={fetchRecipes}
         />
       )}
-    </>
+
+      {editingRecipe && (
+        <EditRecipe
+          recipe={editingRecipe}
+          onClose={handleCloseEdit}
+          refreshRecipes={fetchRecipes}
+        />
+      )}
+    </div>
   );
 };
 

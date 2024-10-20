@@ -1,4 +1,3 @@
-// File: src/components/adminCard/adminCard.jsx
 import React from "react";
 import "../../assets/css/adminCard.css";
 
@@ -11,13 +10,15 @@ const AdminCard = ({ recipe, onEdit, onDelete }) => {
       <p>Category: {recipe.category}</p>
       <p>Cuisine: {recipe.cuisine}</p>
       <p>Prep Time: {recipe.prepTime} minutes</p>
-      <button onClick={onEdit}>Edit</button>
-      <button
-        onClick={onDelete}
-        style={{ backgroundColor: "red", marginLeft: "8px" }}
-      >
-        Delete
-      </button>
+      <p>Ingredients: {recipe.ingredients.join(", ")}</p>
+      <div className="card-actions">
+        <button onClick={onEdit} className="edit-btn">
+          Edit
+        </button>
+        <button onClick={onDelete} className="delete-btn">
+          Delete
+        </button>
+      </div>
     </div>
   );
 };

@@ -1,51 +1,50 @@
-// File: src/components/EditRecipe/EditRecipe.jsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../../assets/css/form.css";
 
 const categories = ["Main Course", "Appetizer", "Dessert", "Salad", "Snack"];
-const cuisines = ["Italian", "Mexican", "Indian", "Greek", "Chinese"];
+const cuisines = [
+  "Italian",
+  "Mexican",
+  "Indian",
+  "Greek",
+  "Chinese"
+];
 
-const EditRecipe = ({ recipeId, onClose, refreshRecipes }) => {
-  const [recipe, setRecipe] = useState(null);
+const EditRecipe = ({ recipe, onClose, refreshRecipes }) => {
+  const [editedRecipe, setEditedRecipe] = useState(recipe);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    const fetchRecipe = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:3000/recipes/${recipeId}`
-        );
-        setRecipe(response.data.data);
-      } catch (err) {
-        setError("Failed to fetch recipe.");
-        console.error(err);
-      }
-    };
-    fetchRecipe();
-  }, [recipeId]);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setEditedRecipe((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleArrayChange = (e) => {
+    const { name, value } = e.target;
+    setEditedRecipe((prev) => ({
+      ...prev,
+      [name]: value.split(",").map((item) => item.trim()),
+    }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.patch(`http://localhost:3000/recipes/${recipeId}`, {
-        name: recipe.name,
-        ingredients: recipe.ingredients,
-        category: recipe.category,
-        cuisine: recipe.cuisine,
-        prepTime: recipe.prepTime,
-        instructions: recipe.instructions,
-        discription: recipe.discription,
-      });
+      await axios.patch(
+        `http://localhost:3000/recipes/${editedRecipe.id}`,
+        editedRecipe
+      );
       refreshRecipes();
       onClose();
     } catch (err) {
-      setError("Failed to update recipe.");
-      console.error(err);
+      console.error("Error updating recipe:", err);
+      setError("Failed to update recipe. Please try again.");
     }
   };
-
-  if (!recipe) return <p>Loading recipe...</p>;
 
   return (
     <div className="modal">
@@ -54,22 +53,23 @@ const EditRecipe = ({ recipeId, onClose, refreshRecipes }) => {
       <form onSubmit={handleSubmit}>
         <input
           type="text"
+          name="name"
           placeholder="Recipe Name"
-          value={recipe.name}
-          onChange={(e) => setRecipe({ ...recipe, name: e.target.value })}
+          value={editedRecipe.name}
+          onChange={handleChange}
           required
         />
         <textarea
+          name="ingredients"
           placeholder="Ingredients (comma separated)"
-          value={recipe.ingredients.join(",")}
-          onChange={(e) =>
-            setRecipe({ ...recipe, ingredients: e.target.value.split(",") })
-          }
+          value={editedRecipe.ingredients.join(", ")}
+          onChange={handleArrayChange}
           required
         />
         <select
-          value={recipe.category}
-          onChange={(e) => setRecipe({ ...recipe, category: e.target.value })}
+          name="category"
+          value={editedRecipe.category}
+          onChange={handleChange}
         >
           {categories.map((cat) => (
             <option key={cat} value={cat}>
@@ -78,8 +78,9 @@ const EditRecipe = ({ recipeId, onClose, refreshRecipes }) => {
           ))}
         </select>
         <select
-          value={recipe.cuisine}
-          onChange={(e) => setRecipe({ ...recipe, cuisine: e.target.value })}
+          name="cuisine"
+          value={editedRecipe.cuisine}
+          onChange={handleChange}
         >
           {cuisines.map((cuis) => (
             <option key={cuis} value={cuis}>
@@ -89,17 +90,32 @@ const EditRecipe = ({ recipeId, onClose, refreshRecipes }) => {
         </select>
         <input
           type="number"
+          name="prepTime"
           placeholder="Preparation Time (in minutes)"
-          value={recipe.prepTime}
-          onChange={(e) => setRecipe({ ...recipe, prepTime: e.target.value })}
+          value={editedRecipe.prepTime}
+          onChange={handleChange}
           required
         />
         <textarea
+          name="instructions"
           placeholder="Instructions (comma separated)"
-          value={recipe.instructions.join(",")}
-          onChange={(e) =>
-            setRecipe({ ...recipe, instructions: e.target.value.split(",") })
-          }
+          value={editedRecipe.instructions.join(", ")}
+          onChange={handleArrayChange}
+          required
+        />
+        <textarea
+          name="description"
+          placeholder="Description"
+          value={editedRecipe.description}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="text"
+          name="imageUrl"
+          placeholder="Image URL"
+          value={editedRecipe.imageUrl}
+          onChange={handleChange}
           required
         />
         <button type="submit">Update Recipe</button>
