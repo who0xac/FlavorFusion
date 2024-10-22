@@ -15,13 +15,13 @@ const Login = () => {
     setLoading(true); // Start loading
     setError(""); // Clear previous errors
     try {
-      console.log("Attempting to login with:", { email, password }); // Debugging log
+      console.log("Attempting to login with:", { email, password }); 
       const response = await axios.post("http://localhost:3000/login", {
         email,
         password,
       });
-      console.log("Login response:", response.data); // Log the response
-      localStorage.setItem("token", response.data.token); // Save JWT
+      console.log("Login response:", response.data); 
+      localStorage.setItem("token", response.data.token); 
       setLoading(false); // Stop loading after success
       navigate("/admin"); // Redirect to admin dashboard
     } catch (err) {
