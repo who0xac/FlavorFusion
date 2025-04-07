@@ -59,7 +59,7 @@ FlavorFusion is a comprehensive recipe management platform that enables culinary
 ### Installation
 1. Clone the repository
    ```
-   git clone https://github.com/GarudaR007X/flavorfusion.git
+   git clone https://github.com/who0xac/flavorfusion.git
    ```
 
 2. Install dependencies
@@ -117,7 +117,7 @@ We welcome contributions to the FlavorFusion platform! To contribute:
 Please ensure your code follows our style guidelines and includes appropriate tests.
 
 ## 📞 Contact
-Project maintained by [GarudaR007X](https://github.com/GarudaR007X)
+Project maintained by [who0xac](https://github.com/who0xac)
 
 For questions or support, please open an issue on the GitHub repository.
 
